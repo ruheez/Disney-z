@@ -2,10 +2,11 @@
 const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   // !!!!!! MAKE SURE TO CHANGE MODE TO PRODUCTION WHEN DOPLOYING FOR PRODUCTION !!!!!!!!!
-  mode: 'development',
+  mode: 'production',
   entry: {
     main:  {
       import: path.resolve(__dirname, './src/scripts/app.js'),
@@ -67,5 +68,6 @@ module.exports = {
       chunks: ['main'],
     }),
     new VueLoaderPlugin(),
+    new CleanWebpackPlugin(),
     ],
 };
