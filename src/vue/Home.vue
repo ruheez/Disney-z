@@ -1,12 +1,18 @@
 <template>
-  <video class="home-video" autoplay muted>
-    <source src="../videos/home.mp4" type="video/mp4" />
+  <video class="home-video" autoplay>
+    <source type="video/mp4" :src="getVideoUrl('home.mp4')" />
   </video>
 </template>
 
 <script>
 export default {
-  name: 'Home'
+  name: "Home",
+  methods: {
+    getVideoUrl(video) {
+      var videos = require.context("../videos/", false, /\.mp4$/);
+      return videos("./" + video);
+    },
+  },
 };
 </script>
 
@@ -14,5 +20,6 @@ export default {
 .home-video {
   object-fit: fill;
   width: 100%;
+  height: 600px;
 }
 </style>
