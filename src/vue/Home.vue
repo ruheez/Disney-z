@@ -18,6 +18,7 @@ export default {
 
 <style>
 .home-video {
+  position: relative;
   object-fit: fill;
   width: 100%;
   height: 600px;

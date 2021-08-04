@@ -102,6 +102,9 @@ export default {
 </script>
 
 <style>
+.navigation-bar {
+  background-color: white;
+}
 .navigation-bar_list {
   display: flex;
   flex-direction: row;
@@ -124,6 +127,9 @@ export default {
   text-align: center;
   text-decoration: none;
   cursor: pointer;
+}
+.navigation-bar_list_item_link:hover {
+  opacity: .7;
 }
 .navigation-bar_list_item_link_img {
   width: 25px;
