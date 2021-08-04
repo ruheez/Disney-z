@@ -1,5 +1,5 @@
 <template>
-  <video class="home-video" autoplay>
+  <video class="home-video" autoplay muted>
     <source type="video/mp4" :src="getVideoUrl('home.mp4')" />
   </video>
 </template>
