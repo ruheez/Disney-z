@@ -7,12 +7,6 @@
 <script>
 export default {
   name: "Home",
-  methods: {
-    getVideoUrl(video) {
-      var videos = require.context("../videos/", false, /\.mp4$/);
-      return videos("./" + video);
-    },
-  },
 };
 </script>
 
