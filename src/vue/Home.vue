@@ -1,6 +1,6 @@
 <template>
-  <video class="home-video" autoplay muted>
-    <source type="video/mp4" :src="getVideoUrl('home.mp4')" />
+  <video class="home-video" autoplay muted loop playsinline>
+    <source type="video/mp4" src="https://media.githubusercontent.com/media/Srizza93/streaming/main/src/videos/home.mp4" />
   </video>
 </template>
 
