@@ -5,10 +5,20 @@
         <img class="movie-inner_movie_img" :src="img" :alt="title" />
       </div>
       <div class="movie-inner_back">
-        <h3><span class="movie-inner_back_definitions">Title:</span> {{ title }}</h3>
-        <span class="movie-inner_back_cast"><span class="movie-inner_back_definitions">Cast:</span> {{ cast }} </span>
-        <span class="movie-inner_back_genre"><span class="movie-inner_back_definitions">Genre:</span> {{ genre }} </span>
-        <span class="movie-inner_back_duration"><span class="movie-inner_back_definitions">Duration:</span> {{ duration }} </span>
+        <h3>
+          <span class="movie-inner_back_definitions">Title:</span> {{ title }}
+        </h3>
+        <span class="movie-inner_back_cast"
+          ><span class="movie-inner_back_definitions">Overview:</span>
+          {{ overview }}
+        </span>
+        <span class="movie-inner_back_genre"
+          ><span class="movie-inner_back_definitions">Genre:</span> {{ genre }}
+        </span>
+        <span class="movie-inner_back_duration"
+          ><span class="movie-inner_back_definitions">Duration:</span>
+          {{ duration }}min
+        </span>
       </div>
     </div>
   </div>
@@ -26,17 +36,17 @@ export default {
       type: String,
       required: true,
     },
-    cast: {
+    overview: {
       type: String,
-      required: true
+      required: true,
     },
     genre: {
       type: String,
-      required: true
+      required: true,
     },
     duration: {
-      type: String,
-      required: true
+      type: Number,
+      required: true,
     },
   },
 };
@@ -46,7 +56,7 @@ export default {
 .movie {
   background-color: transparent;
   width: fit-content;
-  height: 150px;
+  height: 300px;
   margin: 5px;
   perspective: 1000px;
   cursor: pointer;
@@ -54,16 +64,17 @@ export default {
 .movie-inner {
   position: relative;
   width: 250px;
-  height: 150px;
+  height: 300px;
   text-align: left;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 .movie:hover .movie-inner {
   transform: rotateY(180deg);
 }
-.movie-inner_front, .movie-inner_back {
+.movie-inner_front,
+.movie-inner_back {
   position: absolute;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -80,7 +91,7 @@ export default {
 }
 .movie-inner_movie_img {
   width: 250px;
-  height: 150px;
+  height: 300px;
 }
 .movie-inner_back_cast {
   padding: 5px 0;
