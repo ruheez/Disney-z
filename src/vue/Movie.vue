@@ -6,19 +6,23 @@
       </div>
       <div class="movie-inner_back">
         <h3>
-          <span class="movie-inner_back_definitions">Title:</span> {{ title }}
+          <span class="movie-inner_back_definitions">Title: </span> {{ title }}
         </h3>
-        <span class="movie-inner_back_cast"
-          ><span class="movie-inner_back_definitions">Overview:</span>
-          {{ overview }}
-        </span>
-        <span class="movie-inner_back_genre"
-          ><span class="movie-inner_back_definitions">Genre:</span> {{ genre }}
-        </span>
-        <span class="movie-inner_back_duration"
-          ><span class="movie-inner_back_definitions">Duration:</span>
+        <div class="movie-inner_back_overview">
+          <span class="movie-inner_back_definitions">Overview: </span>
+          <span v-if="textIsShort()"> {{ overview }}</span>
+          <span v-else v-html="breakTextAt250Char()"></span>
+        </div>
+        <div class="movie-inner_back_genre">
+          <span class="movie-inner_back_definitions">Genre: </span> {{ genre }}
+        </div>
+        <div class="movie-inner_back_duration">
+          <span class="movie-inner_back_definitions">Duration: </span>
           {{ duration }}min
-        </span>
+        </div>
+        <div class="movie-inner_back_play-icon">
+          <img class="play-icon" :src="getImgUrl(playIcon)" />
+        </div>
       </div>
     </div>
   </div>
@@ -27,6 +31,11 @@
 <script>
 export default {
   name: "Movie",
+  data() {
+    return {
+      playIcon: "play-icon.jpeg",
+    };
+  },
   props: {
     title: {
       type: String,
@@ -47,6 +56,24 @@ export default {
     duration: {
       type: Number,
       required: true,
+    },
+  },
+  methods: {
+    getImgUrl(pic) {
+      var images = require.context("../images/", false, /\.png|jpeg$/);
+      return images("./" + pic);
+    },
+    textIsShort() {
+      if (this.$props.overview.length < 300) {
+        return true;
+      }
+      return false;
+    },
+    breakTextAt250Char() {
+      return (
+        this.$props.overview.substring(0, 250) +
+        '... <a class="read-more">read more</a>'
+      );
     },
   },
 };
@@ -93,16 +120,33 @@ export default {
   width: 250px;
   height: 300px;
 }
-.movie-inner_back_cast {
+.movie-inner_back_overview {
   padding: 5px 0;
 }
 .movie-inner_back_genre {
   padding: 5px 0;
 }
 .movie-inner_back_duration {
-  padding: 5px 0;
+  padding: 0;
 }
 .movie-inner_back_definitions {
   color: #777;
+}
+.read-more {
+  color: #0071c2;
+  text-decoration: underline;
+}
+.read-more:hover {
+  opacity: 0.7;
+}
+.movie-inner_back_play-icon {
+  margin-left: auto;
+}
+.movie-inner_back_play-icon:hover {
+  opacity: .7;
+}
+.play-icon {
+  width: 50px;
+  height: auto;
 }
 </style>

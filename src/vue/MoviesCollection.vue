@@ -1,6 +1,6 @@
 <template>
   <div class="movies">
-  <span>{{ images }}</span>
+    <span>{{ images }}</span>
     <movie
       v-for="movie in movies"
       :key="movie.id"
@@ -54,6 +54,11 @@ export default {
         "tt11083552",
         "tt10327252",
         "tt11580854",
+        "tt0111161",
+        "tt0050083",
+        "tt0133093",
+        "tt0080684",
+        "tt0167261",
       ];
       moviesId.forEach(async (movie) => {
         movie = `https://api.themoviedb.org/3/movie/${movie}?api_key=${apiKey}&language=en-US`;
@@ -79,5 +84,6 @@ export default {
   flex-flow: row wrap;
   justify-content: center;
   position: absolute;
+  margin-top: -70px;
 }
 </style>
