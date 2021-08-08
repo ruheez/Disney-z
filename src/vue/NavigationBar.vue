@@ -18,6 +18,17 @@
           }}</span>
         </a>
       </li>
+      <li class="navigation-bar_list_hamburger">
+        <button
+          type="button"
+          @click="showHamburger()"
+          class="navigation-bar_list_hamburger_button"
+        >
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar last-bar"></div>
+        </button>
+      </li>
     </ul>
   </div>
 </template>
@@ -78,11 +89,11 @@ export default {
   methods: {
     assignClasses() {
       var images = document.getElementsByTagName("img");
-      const magnifying = Array.from(images).filter(image => {
-        return image.alt === 'Magnifying glass';
+      const magnifying = Array.from(images).filter((image) => {
+        return image.alt === "Magnifying glass";
       })[0].parentElement.parentElement;
-      magnifying.classList.add('images-margin-left');
-      images[0].classList.add('images-margin-right');
+      magnifying.classList.add("images-margin-left");
+      images[0].classList.add("images-margin-right");
     },
     getImgUrl(pic) {
       var images = require.context("../images/", false, /\.png|ico$/);
@@ -94,9 +105,41 @@ export default {
       }
       return false;
     },
+    showHamburger() {
+      const navigation = document.querySelector(".navigation-bar_list");
+      const images = document.querySelectorAll(
+        ".navigation-bar_list_item_link_img"
+      );
+      const buttons = document.querySelectorAll(
+        ".navigation-bar_list_item_link_text"
+      );
+      const magnifying = document.querySelector(".images-margin-left");
+      const hamburger = document.querySelector(".navigation-bar_list_hamburger");
+      if (!navigation.classList.contains("hamburger-open")) {
+        navigation.classList.add("hamburger-open");
+        buttons.forEach((button) => {
+          button.classList.add("hamburger-style");
+        });
+        images.forEach((image) => {
+          image.classList.add("hamburger-style");
+        });
+        magnifying.classList.add("center-magnifying");
+        hamburger.classList.add("hamburger-position");
+      } else {
+        navigation.classList.remove("hamburger-open");
+        buttons.forEach((button) => {
+          button.classList.remove("hamburger-style");
+        });
+        images.forEach((image) => {
+          image.classList.remove("hamburger-style");
+        });
+        magnifying.classList.remove("center-magnifying");
+        hamburger.classList.remove("hamburger-position");
+      }
+    },
   },
   mounted() {
-      this.assignClasses();
+    this.assignClasses();
   },
 };
 </script>
@@ -109,9 +152,11 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   list-style-type: none;
   margin: 0;
   padding: 0;
+  padding-right: 15px;
   overflow: hidden;
   box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
   font-size: 16px;
@@ -129,7 +174,7 @@ export default {
   cursor: pointer;
 }
 .navigation-bar_list_item_link:hover {
-  opacity: .7;
+  opacity: 0.7;
 }
 .navigation-bar_list_item_link_img {
   width: 25px;
@@ -144,5 +189,47 @@ export default {
 }
 .images-margin-right {
   margin-right: 25px;
+}
+.navigation-bar_list_hamburger {
+  display: none;
+}
+.navigation-bar_list_hamburger_button {
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+.bar {
+  width: 35px;
+  height: 4px;
+  background-color: #1c55ff;
+  margin-bottom: 5px;
+}
+.bar:hover {
+  opacity: .7;
+}
+.last-bar {
+  margin: 0;
+}
+@media only screen and (max-width: 750px) {
+  .navigation-bar_list_item_link_text {
+    display: none;
+  }
+  .navigation-bar_list_hamburger {
+    display: block;
+  }
+}
+.hamburger-open {
+  flex-direction: column;
+  padding-bottom: 15px;
+}
+.hamburger-style {
+  display: block;
+  margin: 15px;
+}
+.center-magnifying {
+  margin: 0;
+}
+.hamburger-position {
+  margin-top: 15px;
 }
 </style>
