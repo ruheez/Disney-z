@@ -1,33 +1,47 @@
 <template>
   <div class="navigation-bar">
     <ul class="navigation-bar_list">
+      <li class="navigation-bar_list_item">
+        <a class="navigation-bar_list_item_link">
+          <img
+            class="navigation-bar_list_item_link_img"
+            :src="getImgUrl(logo.link)"
+            :alt="logo.text"
+          />
+        </a>
+      </li>
+      <li class="navigation-bar_list_item">
+        <span
+          class="navigation-bar_list_item_more navigation-bar_list_item_link"
+          :data-tooltip="toolTipMenu.template"
+          >More</span
+        >
+        <div class="dropdown-content">
+          <ul class="navigation-bar_list_buttons">
+            <li
+              class="navigation-bar_list_item navigation-bar_list_item_button"
+              v-for="button in buttons"
+              :key="button.id + button.text"
+            >
+              <a class="navigation-bar_list_item_link">
+                {{ button.text }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
       <li
         class="navigation-bar_list_item"
-        v-for="button in buttons"
-        :key="button.id"
+        v-for="icon in icons"
+        :key="icon.id + icon.text"
       >
         <a class="navigation-bar_list_item_link">
           <img
             class="navigation-bar_list_item_link_img"
-            v-if="itemIsImg(button.link)"
-            :src="getImgUrl(button.link)"
-            :alt="button.text"
+            :src="getImgUrl(icon.link)"
+            :alt="icon.text"
           />
-          <span class="navigation-bar_list_item_link_text" v-else>{{
-            button.text
-          }}</span>
         </a>
-      </li>
-      <li class="navigation-bar_list_hamburger">
-        <button
-          type="button"
-          @click="showHamburger()"
-          class="navigation-bar_list_hamburger_button"
-        >
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar last-bar"></div>
-        </button>
       </li>
     </ul>
   </div>
@@ -38,52 +52,77 @@ export default {
   name: "NavigationBar",
   data() {
     return {
+      logo: {
+        id: 1,
+        text: "Logo",
+        link: "logo.png",
+      },
       buttons: [
         {
           id: 1,
-          text: "Logo",
-          link: "logo.png",
-        },
-        {
-          id: 2,
           text: "Home",
         },
         {
-          id: 3,
+          id: 2,
           text: "Watch again",
         },
         {
-          id: 4,
+          id: 3,
           text: "Series",
         },
         {
-          id: 5,
+          id: 4,
           text: "Movies",
         },
         {
-          id: 6,
+          id: 5,
           text: "News",
         },
         {
-          id: 7,
+          id: 6,
           text: "My list",
         },
+      ],
+      icons: [
         {
-          id: 8,
+          id: 1,
           text: "Magnifying glass",
           link: "magnifying.png",
         },
         {
-          id: 9,
+          id: 2,
           text: "Notifications",
           link: "bell.png",
         },
         {
-          id: 10,
+          id: 3,
           text: "Account",
           link: "account.png",
         },
       ],
+      toolTipMenu: {
+        id: 2,
+        template: `<ul class="navigation-bar_list_buttons">
+        <li class="navigation-bar_list_item navigation-bar_list_item_button">
+        <a class="navigation-bar_list_item_link">Home</a>
+        </li>
+        <li class="navigation-bar_list_item navigation-bar_list_item_button">
+        <a class="navigation-bar_list_item_link">Watch again</a>
+        </li>
+        <li class="navigation-bar_list_item navigation-bar_list_item_button">
+        <a class="navigation-bar_list_item_link">Series</a>
+        </li>
+        <li class="navigation-bar_list_item navigation-bar_list_item_button">
+        <a class="navigation-bar_list_item_link">Movies</a>
+        </li>
+        <li class="navigation-bar_list_item navigation-bar_list_item_button">
+        <a class="navigation-bar_list_item_link">News</a>
+        </li>
+        <li class="navigation-bar_list_item navigation-bar_list_item_button">
+        <a class="navigation-bar_list_item_link">My list</a>
+        </li>
+        </ul>`,
+      },
     };
   },
   methods: {
@@ -98,44 +137,6 @@ export default {
     getImgUrl(pic) {
       var images = require.context("../images/", false, /\.png|ico$/);
       return images("./" + pic);
-    },
-    itemIsImg(button) {
-      if (button) {
-        return true;
-      }
-      return false;
-    },
-    showHamburger() {
-      const navigation = document.querySelector(".navigation-bar_list");
-      const images = document.querySelectorAll(
-        ".navigation-bar_list_item_link_img"
-      );
-      const buttons = document.querySelectorAll(
-        ".navigation-bar_list_item_link_text"
-      );
-      const magnifying = document.querySelector(".images-margin-left");
-      const hamburger = document.querySelector(".navigation-bar_list_hamburger");
-      if (!navigation.classList.contains("hamburger-open")) {
-        navigation.classList.add("hamburger-open");
-        buttons.forEach((button) => {
-          button.classList.add("hamburger-style");
-        });
-        images.forEach((image) => {
-          image.classList.add("hamburger-style");
-        });
-        magnifying.classList.add("center-magnifying");
-        hamburger.classList.add("hamburger-position");
-      } else {
-        navigation.classList.remove("hamburger-open");
-        buttons.forEach((button) => {
-          button.classList.remove("hamburger-style");
-        });
-        images.forEach((image) => {
-          image.classList.remove("hamburger-style");
-        });
-        magnifying.classList.remove("center-magnifying");
-        hamburger.classList.remove("hamburger-position");
-      }
     },
   },
   mounted() {
@@ -160,17 +161,23 @@ export default {
   overflow: hidden;
   box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
   font-size: 16px;
-  font-weight: bold;
   white-space: nowrap;
 }
 .navigation-bar_list_item {
-  float: left;
+  list-style-type: none;
+}
+.navigation-bar_list_item_button {
+  margin: 0 10px;
+}
+.navigation-bar_list_buttons {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
 }
 .navigation-bar_list_item_link {
   display: block;
   color: black;
   text-align: center;
-  text-decoration: none;
   cursor: pointer;
 }
 .navigation-bar_list_item_link:hover {
@@ -190,46 +197,21 @@ export default {
 .images-margin-right {
   margin-right: 25px;
 }
-.navigation-bar_list_hamburger {
+.navigation-bar_list_item_more {
   display: none;
+  font-weight: bold;
 }
-.navigation-bar_list_hamburger_button {
-  padding: 0;
-  border: 0;
-  cursor: pointer;
-}
-.bar {
-  width: 35px;
-  height: 4px;
-  background-color: #1c55ff;
-  margin-bottom: 5px;
-}
-.bar:hover {
-  opacity: .7;
-}
-.last-bar {
-  margin: 0;
-}
-@media only screen and (max-width: 750px) {
-  .navigation-bar_list_item_link_text {
+@media only screen and (max-width: 600px) {
+  .dropdown-content {
     display: none;
   }
-  .navigation-bar_list_hamburger {
+  .navigation-bar_list_item_more {
     display: block;
   }
-}
-.hamburger-open {
-  flex-direction: column;
-  padding-bottom: 15px;
-}
-.hamburger-style {
-  display: block;
-  margin: 15px;
-}
-.center-magnifying {
-  margin: 0;
-}
-.hamburger-position {
-  margin-top: 15px;
+  .navigation-bar_list_buttons {
+    flex-direction: column;
+    padding: 5px;
+    line-height: 40px
+  }
 }
 </style>
