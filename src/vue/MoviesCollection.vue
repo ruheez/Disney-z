@@ -9,6 +9,7 @@
       :overview="movie.overview"
       :genre="movie.genres[0].name"
       :duration="movie.runtime"
+      @openMoviePage="navigateMovie(movie.imdb_id)"
     />
   </div>
 </template>
@@ -71,6 +72,9 @@ export default {
         }
       });
     },
+    navigateMovie(id) {
+      window.open("./movie-page.html?movie=" + encodeURI(id));
+    }
   },
   created() {
     this.getDataFromApi();

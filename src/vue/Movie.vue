@@ -21,7 +21,11 @@
           {{ duration }}min
         </div>
         <div class="movie-inner_back_play-icon">
-          <img class="play-icon" :src="getImgUrl(playIcon)" />
+          <img
+            class="play-icon"
+            :src="getImgUrl(playIcon)"
+            @click="$emit('openMoviePage', { event: $event, id })"
+          />
         </div>
       </div>
     </div>
@@ -143,7 +147,7 @@ export default {
   margin-left: auto;
 }
 .movie-inner_back_play-icon:hover {
-  opacity: .7;
+  opacity: 0.7;
 }
 .play-icon {
   width: 50px;

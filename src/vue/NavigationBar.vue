@@ -2,7 +2,7 @@
   <div class="navigation-bar">
     <ul class="navigation-bar_list">
       <li class="navigation-bar_list_item">
-        <a class="navigation-bar_list_item_link">
+        <a class="navigation-bar_list_item_link" href="./index.html">
           <img
             class="navigation-bar_list_item_link_img"
             :src="getImgUrl(logo.link)"
@@ -14,8 +14,9 @@
         <span
           class="navigation-bar_list_item_more navigation-bar_list_item_link"
           :data-tooltip="toolTipMenu.template"
-          >More</span
-        >
+          >More
+          <div class="navigation-bar_list_item_more_triangle"></div>
+        </span>
         <div class="dropdown-content">
           <ul class="navigation-bar_list_buttons">
             <li
@@ -201,17 +202,27 @@ export default {
   display: none;
   font-weight: bold;
 }
-@media only screen and (max-width: 600px) {
+.navigation-bar_list_item_more_triangle {
+  content: " ";
+  position: absolute;
+  left: 19px;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #1c55ff transparent transparent transparent;
+}
+@media only screen and (max-width: 750px) {
   .dropdown-content {
     display: none;
   }
   .navigation-bar_list_item_more {
     display: block;
+    position: relative;
   }
   .navigation-bar_list_buttons {
     flex-direction: column;
     padding: 5px;
-    line-height: 40px
+    line-height: 40px;
   }
 }
 </style>
