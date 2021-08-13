@@ -1,21 +1,26 @@
 <template>
   <div class="sub-root">
     <bar />
-    <home />
+    <youtube :ykey="youtubeKey" />
     <movies />
   </div>
 </template>
 
 <script>
 import Bar from "./NavigationBar.vue";
-import Home from "./Home.vue";
 import Movies from "./MoviesCollection.vue"
+import Youtube from "./Youtube.vue"
 export default {
   name: "App",
   components: {
     Bar,
-    Home,
+    Youtube,
     Movies
   },
+  data() {
+    return {
+      youtubeKey: "https://www.youtube.com/embed/9qH-mWfTMm0?controls=0&autoplay=1&cc_load_policy=1&rel=0",
+    }
+  }
 };
 </script>

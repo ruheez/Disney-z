@@ -88,6 +88,6 @@ export default {
   flex-flow: row wrap;
   justify-content: center;
   position: absolute;
-  margin-top: -70px;
+  margin-top: -30px;
 }
 </style>

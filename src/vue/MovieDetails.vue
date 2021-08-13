@@ -1,18 +1,16 @@
 <template>
   <div class="movie-details">
-    <div class="movie-details_trailer">
-      <iframe
-        width="100%"
-        height="100%"
-        :src="getYoutubeUrl(youtubeKey)"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </div>
+    <youtube :ykey="getYoutubeUrl(youtubeKey)" />
     <div class="movie-details_info">
-      <h2>{{ movie.title }}</h2>
+      <div class="movie-details_info_first-line">
+        <h1>{{ movie.title }}</h1>
+        <div>
+          <span class="star"></span>&nbsp; 
+          <span class="movie-details_info_first-line_score">{{
+            movie.vote_average
+          }}</span>
+        </div>
+      </div>
       <p>{{ movie.overview }}</p>
       <div class="movie-details_genres">
         <span v-for="genre in movie.genres" :key="genre.id">
@@ -33,7 +31,6 @@
         </span>
       </div>
       <span>{{ movie.release_date }}</span>
-      <span>{{ movie.vote_average }}</span>
       <h3>{{ movie.tagline }}</h3>
     </div>
   </div>
@@ -41,13 +38,17 @@
 
 <script>
 import "regenerator-runtime/runtime";
+import Youtube from "./Youtube.vue";
 
 export default {
   name: "MovieDetails",
+  components: {
+    Youtube,
+  },
   data() {
     return {
       movie: "",
-      youtubeKey: "",
+      youtubeKey: "sd",
     };
   },
   methods: {
@@ -62,11 +63,10 @@ export default {
       try {
         const response = await fetch(movie);
         var data = await response.json();
-        console.log(data.videos.results[0].key);
         this.youtubeKey = data.videos.results[0].key;
         this.movie = data;
       } catch (error) {
-        console.log(error);
+        console.log("Can't get data from API: " + error);
       }
     },
 
@@ -87,13 +87,31 @@ export default {
   flex-direction: column;
   align-items: center;
   color: white;
+  line-height: 20px;
+  font-size: 16px;
 }
 .movie-details_trailer {
-  width: 100%;
-  height: 350px;
+  max-width: 800px;
 }
 .movie-details_info {
-  max-width: 650px;
-  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  padding: 5px;
+}
+.movie-details_info_first-line {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+.movie-details_info_first-line_score {
+  font-size: 20px;
+}
+.star {
+  color: #ff8c00;
+}
+.star::before {
+  content: "\2605";
 }
 </style>
