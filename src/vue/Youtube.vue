@@ -26,7 +26,6 @@ export default {
 
 <style>
 .movie-details_trailer {
-  position: relative;
   object-fit: fill;
   width: 100%;
   height: 350px;

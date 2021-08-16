@@ -3,6 +3,7 @@
     <bar />
     <youtube :ykey="youtubeKey" />
     <movies />
+    <app-footer />
   </div>
 </template>
 
@@ -10,12 +11,14 @@
 import Bar from "./NavigationBar.vue";
 import Movies from "./MoviesCollection.vue"
 import Youtube from "./Youtube.vue"
+import AppFooter from "./Footer.vue"
 export default {
   name: "App",
   components: {
     Bar,
     Youtube,
-    Movies
+    Movies,
+    AppFooter,
   },
   data() {
     return {

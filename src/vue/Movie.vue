@@ -13,12 +13,9 @@
           <span v-if="textIsShort()"> {{ overview }}</span>
           <span v-else v-html="breakTextAt250Char()"></span>
         </div>
-        <div class="movie-inner_back_genre">
-          <span class="movie-inner_back_definitions">Genre: </span> {{ genre }}
-        </div>
-        <div class="movie-inner_back_duration">
-          <span class="movie-inner_back_definitions">Duration: </span>
-          {{ duration }}min
+        <div>
+          <span class="star"></span>&nbsp;
+          <span class="movie-details_info_first-line_score">{{ average }}</span>
         </div>
         <div class="movie-inner_back_play-icon">
           <img
@@ -53,11 +50,7 @@ export default {
       type: String,
       required: true,
     },
-    genre: {
-      type: String,
-      required: true,
-    },
-    duration: {
+    average: {
       type: Number,
       required: true,
     },
@@ -85,6 +78,8 @@ export default {
 
 <style>
 .movie {
+  display: flex;
+  flex-direction: row;
   background-color: transparent;
   width: fit-content;
   height: 300px;
@@ -127,12 +122,6 @@ export default {
 .movie-inner_back_overview {
   padding: 5px 0;
 }
-.movie-inner_back_genre {
-  padding: 5px 0;
-}
-.movie-inner_back_duration {
-  padding: 0;
-}
 .movie-inner_back_definitions {
   color: #777;
 }
@@ -145,6 +134,7 @@ export default {
 }
 .movie-inner_back_play-icon {
   margin-left: auto;
+  margin-top: auto;
 }
 .movie-inner_back_play-icon:hover {
   opacity: 0.7;
@@ -152,5 +142,11 @@ export default {
 .play-icon {
   width: 50px;
   height: auto;
+}
+.star {
+  color: #ff8c00;
+}
+.star::before {
+  content: "\2605";
 }
 </style>

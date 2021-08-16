@@ -1,16 +1,19 @@
 <template>
   <div class="movies">
-    <span>{{ images }}</span>
-    <movie
-      v-for="movie in movies"
-      :key="movie.id"
-      :img="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
-      :title="movie.title"
-      :overview="movie.overview"
-      :genre="movie.genres[0].name"
-      :duration="movie.runtime"
-      @openMoviePage="navigateMovie(movie.imdb_id)"
-    />
+    <div class="movies_list" v-for="sort in movies" :key="sort.id">
+      <h2 class="movies_list_title">{{ sort.name }}</h2>
+      <div class="movies_list_container">
+        <movie
+          v-for="movie in sort.list"
+          :key="movie.id"
+          :img="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
+          :title="movie.title"
+          :overview="movie.overview"
+          :average="movie.vote_average"
+          @openMoviePage="navigateMovie(movie.id)"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -25,56 +28,49 @@ export default {
   },
   data() {
     return {
-      movies: [],
+      movies: {
+        now_playing: {
+          id: 1,
+          name: "Now Playing",
+          list: [],
+        },
+        popular: {
+          id: 2,
+          name: "Popular",
+          list: [],
+        },
+        top_rated: {
+          id: 3,
+          name: "Top Rated",
+          list: [],
+        },
+        upcoming: {
+          id: 4,
+          name: "Upcoming",
+          list: [],
+        },
+      },
       images: [],
     };
   },
   methods: {
     async getDataFromApi() {
       const apiKey = "b9b95774804923e6978e27bc40df2c97";
-      var moviesId = [
-        "tt12801262",
-        "tt3228774",
-        "tt3480822",
-        "tt3554046",
-        "tt10648714",
-        "tt1099212",
-        "tt0109830",
-        "tt0068646",
-        "tt0293429",
-        "tt0241527",
-        "tt0172495",
-        "tt0468569",
-        "tt4160708",
-        "tt3758814",
-        "tt10954652",
-        "tt6402468",
-        "tt9243804",
-        "tt1893273",
-        "tt10895576",
-        "tt11083552",
-        "tt10327252",
-        "tt11580854",
-        "tt0111161",
-        "tt0050083",
-        "tt0133093",
-        "tt0080684",
-        "tt0167261",
-      ];
-      moviesId.forEach(async (movie) => {
-        movie = `https://api.themoviedb.org/3/movie/${movie}?api_key=${apiKey}&language=en-US`;
+      const movieLists = ["now_playing", "popular", "top_rated", "upcoming"];
+      movieLists.forEach(async (sort, index) => {
+        var url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${apiKey}&language=en-US`;
         try {
-          const response = await fetch(movie);
+          const response = await fetch(url);
           var data = await response.json();
-          this.movies.push(data);
+          this.movies[sort].list = data.results;
         } catch (error) {
-          console.log(error);
+          console.log("Can't get data from API: " + error);
         }
       });
     },
     navigateMovie(id) {
       window.open("./movie-page.html?movie=" + encodeURI(id));
-    }
+    },
   },
   created() {
     this.getDataFromApi();
@@ -85,9 +81,21 @@ export default {
 <style>
 .movies {
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: column;
   justify-content: center;
-  position: absolute;
-  margin-top: -30px;
+  margin: 50px;
+}
+.movies_list {
+  display: flex;
+  flex-direction: column;
+  overflow-x: scroll;
+}
+.movies_list_container {
+  display: flex;
+  flex-direction: row;
+}
+.movies_list_title {
+  color: white;
+  padding: 25px 25px 0 25px;
 }
 </style>
