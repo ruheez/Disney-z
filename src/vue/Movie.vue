@@ -21,6 +21,7 @@
           <img
             class="play-icon"
             :src="getImgUrl(playIcon)"
+            alt="play-icon"
             @click="$emit('openMoviePage', { event: $event, id })"
           />
         </div>
@@ -83,7 +84,7 @@ export default {
   background-color: transparent;
   width: fit-content;
   height: 300px;
-  margin: 5px;
+  margin: 10px 10px 10px 0;
   perspective: 1000px;
   cursor: pointer;
 }

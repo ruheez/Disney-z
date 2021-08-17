@@ -10,13 +10,14 @@
           />
         </a>
       </li>
-      <li class="navigation-bar_list_item">
-        <span
-          class="navigation-bar_list_item_more navigation-bar_list_item_link"
-          :data-tooltip="toolTipMenu.template"
-          >More
+      <li class="navigation-bar_list_item dropdown">
+        <div class="navigation-bar_list_item_more-container">
+          <span
+            class="navigation-bar_list_item_more navigation-bar_list_item_link"
+            >More
+          </span>
           <div class="navigation-bar_list_item_more_triangle"></div>
-        </span>
+        </div>
         <div class="dropdown-content">
           <ul class="navigation-bar_list_buttons">
             <li
@@ -24,7 +25,7 @@
               v-for="button in buttons"
               :key="button.id + button.text"
             >
-              <a class="navigation-bar_list_item_link">
+              <a class="navigation-bar_list_item_link" href="./index.html">
                 {{ button.text }}
               </a>
             </li>
@@ -101,29 +102,6 @@ export default {
           link: "account.png",
         },
       ],
-      toolTipMenu: {
-        id: 2,
-        template: `<ul class="navigation-bar_list_buttons">
-        <li class="navigation-bar_list_item navigation-bar_list_item_button">
-        <a class="navigation-bar_list_item_link">Home</a>
-        </li>
-        <li class="navigation-bar_list_item navigation-bar_list_item_button">
-        <a class="navigation-bar_list_item_link">Watch again</a>
-        </li>
-        <li class="navigation-bar_list_item navigation-bar_list_item_button">
-        <a class="navigation-bar_list_item_link">Series</a>
-        </li>
-        <li class="navigation-bar_list_item navigation-bar_list_item_button">
-        <a class="navigation-bar_list_item_link">Movies</a>
-        </li>
-        <li class="navigation-bar_list_item navigation-bar_list_item_button">
-        <a class="navigation-bar_list_item_link">News</a>
-        </li>
-        <li class="navigation-bar_list_item navigation-bar_list_item_button">
-        <a class="navigation-bar_list_item_link">My list</a>
-        </li>
-        </ul>`,
-      },
     };
   },
   methods: {
@@ -149,6 +127,7 @@ export default {
 <style>
 .navigation-bar {
   background-color: white;
+  position: relative;
 }
 .navigation-bar_list {
   display: flex;
@@ -179,6 +158,7 @@ export default {
   display: block;
   color: black;
   text-align: center;
+  text-decoration: none;
   cursor: pointer;
 }
 .navigation-bar_list_item_link:hover {
@@ -198,8 +178,11 @@ export default {
 .images-margin-right {
   margin-right: 25px;
 }
-.navigation-bar_list_item_more {
+.navigation-bar_list_item_more-container {
   display: none;
+  position: relative;
+}
+.navigation-bar_list_item_more {
   font-weight: bold;
 }
 .navigation-bar_list_item_more_triangle {
@@ -212,12 +195,24 @@ export default {
   border-color: #1c55ff transparent transparent transparent;
 }
 @media only screen and (max-width: 750px) {
+  .dropdown {
+    display: inline-block;
+  }
   .dropdown-content {
     display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    border: 2px solid #1c55ff;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
   }
-  .navigation-bar_list_item_more {
+  .navigation-bar_list_item_more-container {
     display: block;
-    position: relative;
+  }
+  .dropdown:hover .dropdown-content {
+    display: block;
   }
   .navigation-bar_list_buttons {
     flex-direction: column;

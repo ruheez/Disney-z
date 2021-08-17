@@ -20,10 +20,9 @@
       </div>
     </div>
     <div class="footer_copyright">
-      <span>Copyright © 1993–2021 streaming. All rights reserved</span>
+      <span>Copyright © 1993–2021 streaming. All rights reserved.</span>
       <span
-        >streaming is the world leader in online movie streaming and related
-        services.</span
+        >Powered by themoviedb - www.themoviedb.org</span
       >
     </div>
   </div>
@@ -153,6 +152,7 @@ export default {
   margin: 50px;
   background-color: #141414;
   color: grey;
+  white-space: nowrap;
 }
 
 .footer_links {
@@ -199,6 +199,7 @@ export default {
   .footer {
     flex-wrap: wrap;
     height: 100%;
+    white-space: normal;
   }
   .footer_links {
     flex-direction: column;

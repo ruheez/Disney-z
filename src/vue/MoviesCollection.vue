@@ -88,11 +88,11 @@ export default {
 .movies_list {
   display: flex;
   flex-direction: column;
-  overflow-x: scroll;
 }
 .movies_list_container {
   display: flex;
   flex-direction: row;
+  overflow-x: scroll;
 }
 .movies_list_title {
   color: white;

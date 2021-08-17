@@ -68,7 +68,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'streaming',
-      chunks: ['main'],
+      chunks: ['main']
     }),
     new HtmlWebpackPlugin({
       title: 'streaming',
