@@ -1,5 +1,5 @@
 <template>
-  <div class="sub-root">
+  <div class="sub-root" lang="en">
     <bar />
     <youtube :ykey="youtubeKey" />
     <movies />
