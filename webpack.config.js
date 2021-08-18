@@ -74,7 +74,7 @@ module.exports = {
       title: "streaming",
       chunks: ["movie"],
       filename: "movie-page.html",
-    }), 
+    }),
     new VueLoaderPlugin(),
     new CleanWebpackPlugin(),
   ],

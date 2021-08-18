@@ -9,13 +9,18 @@
 <script>
 import Bar from "./NavigationBar.vue";
 import MovieDetails from "./MovieDetails.vue";
-import AppFooter from "./Footer.vue"
+import AppFooter from "./Footer.vue";
 export default {
   name: "MoviePage",
   components: {
     Bar,
     MovieDetails,
-    AppFooter
+    AppFooter,
+  },
+  created() {
+    const htmlTag = document.querySelector("html");
+    htmlTag.setAttribute("dir", "ltr");
+    htmlTag.setAttribute("lang", "en");
   },
 };
 </script>
