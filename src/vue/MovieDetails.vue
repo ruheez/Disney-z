@@ -24,6 +24,7 @@
         class="play-icon"
         :src="getImgUrl(playIcon)"
         @click="playMovie(movie.id)"
+        alt="play-icon"
       />
     </div>
   </div>
