@@ -134,6 +134,11 @@ export default {
   flex-direction: row;
   overflow-x: scroll;
   scroll-behavior: smooth;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.movies_list_container::-webkit-scrollbar {
+  display: none;
 }
 .movies_list_title {
   color: white;

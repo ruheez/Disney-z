@@ -69,11 +69,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "streaming",
       chunks: ["main"],
+      favicon: "./src/images/logo.ico",
     }),
     new HtmlWebpackPlugin({
       title: "streaming",
       chunks: ["movie"],
       filename: "movie-page.html",
+      favicon: "./src/images/logo.ico",
     }),
     new VueLoaderPlugin(),
     new CleanWebpackPlugin(),
