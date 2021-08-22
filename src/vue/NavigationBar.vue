@@ -38,7 +38,7 @@
           images-margin-left
         "
       >
-        <a class="navigation-bar_list_item_link">
+        <a class="navigation-bar_list_item_link" @click="openDropdown">
           <img
             class="navigation-bar_list_item_link_img"
             :src="getImgUrl(icons[0].link)"
@@ -55,14 +55,14 @@
             />
             <input
               class="navigation-bar_list_item_link_submit"
-              type="submit"
-              value="Search"
+              type="image"
+              :src="getImgUrl(icons[0].link)"
             />
           </form>
         </div>
       </li>
       <li class="navigation-bar_list_item navigation-bar_list-icons">
-        <a class="navigation-bar_list_item_link">
+        <a class="navigation-bar_list_item_link" @click="openDropdown">
           <img
             class="navigation-bar_list_item_link_img"
             :src="getImgUrl(icons[1].link)"
@@ -88,7 +88,7 @@
         </div>
       </li>
       <li class="navigation-bar_list_item navigation-bar_list-icons">
-        <a class="navigation-bar_list_item_link">
+        <a class="navigation-bar_list_item_link" @click="openDropdown">
           <img
             class="navigation-bar_list_item_link_img"
             :src="getImgUrl(icons[2].link)"
@@ -207,8 +207,15 @@ export default {
   },
   methods: {
     getImgUrl(pic) {
-      var images = require.context("../images/", false, /\.png|ico$/);
+      var images = require.context("../images/", false, /\.png$/);
       return images("./" + pic);
+    },
+    openDropdown(event) {
+      const parent = event.target.parentNode.parentNode;
+      const dropdown = parent.childNodes[1];
+      dropdown.classList.contains("show-dropdown")
+        ? dropdown.classList.remove("show-dropdown")
+        : dropdown.classList.add("show-dropdown");
     },
   },
 };
@@ -259,31 +266,30 @@ export default {
   position: absolute;
   right: 0;
   background-color: #f9f9f9;
-  opacity: 0.9;
   min-width: 175px;
   border: 2px solid #1c55ff;
   border-radius: 5px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
-.navigation-bar_list-icons:hover .icons_dropdown-content {
+.show-dropdown {
   display: flex;
 }
 .icons_dropdown-content_form {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
 }
 .navigation-bar_list_item_link_input {
   width: 100%;
   height: 25px;
   border: 0;
+  border-radius: 5px;
 }
 .navigation-bar_list_item_link_submit {
-  width: 100%;
+  width: 30px;
   height: 25px;
-  background-color: #1c55ff;
-  color: white;
+  padding: 2px;
   border: 0;
   cursor: pointer;
 }

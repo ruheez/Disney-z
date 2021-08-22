@@ -14,6 +14,9 @@ module.exports = {
     movie: {
       import: path.resolve(__dirname, "./src/scripts/movie-page.js"),
     },
+    watch: {
+      import: path.resolve(__dirname, "./src/scripts/watch-movie.js"),
+    },
   },
   // devtool: 'inline-source-map', // ONLY FOR DEVLOPMENT MODE
   output: {
@@ -75,6 +78,12 @@ module.exports = {
       title: "streaming",
       chunks: ["movie"],
       filename: "movie-page.html",
+      favicon: "./src/images/logo.ico",
+    }),
+    new HtmlWebpackPlugin({
+      title: "streaming",
+      chunks: ["watch"],
+      filename: "watch-movie.html",
       favicon: "./src/images/logo.ico",
     }),
     new VueLoaderPlugin(),

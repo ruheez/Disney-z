@@ -73,7 +73,7 @@ export default {
       return images("./" + pic);
     },
     playMovie(id) {
-      window.open("./movie-page.html?movie=" + encodeURI(id));
+      window.open("./watch-movie.html?movie=" + encodeURI(id));
     },
   },
   computed: {

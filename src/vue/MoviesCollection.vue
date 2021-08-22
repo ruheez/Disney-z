@@ -12,7 +12,7 @@
           :average="movie.vote_average"
           @openMoviePage="navigateMovie(movie.id)"
         />
-        <a class="slideshow_arrow prev" @click="scrollLeft">❮</a>
+        <a class="slideshow_arrow prev hide-arrow" @click="scrollLeft">❮</a>
         <a class="slideshow_arrow next" @click="scrollRight">❯</a>
       </div>
     </div>
@@ -89,21 +89,14 @@ export default {
       this.hideRightArrow(container, rightArrow);
     },
     hideLeftArrow(container, leftArrow) {
-      if (container.scrollLeft === 0) {
-        leftArrow.style.display = "none";
-      } else {
-        leftArrow.style.display = "flex";
-      }
+      container.scrollLeft === 0
+        ? leftArrow.classList.add("hide-arrow")
+        : leftArrow.classList.remove("hide-arrow");
     },
     hideRightArrow(container, rightArrow) {
-      if (
-        container.scrollLeft ===
-        container.scrollWidth - container.offsetWidth
-      ) {
-        rightArrow.style.display = "none";
-      } else {
-        rightArrow.style.display = "flex";
-      }
+      container.scrollLeft === container.scrollWidth - container.offsetWidth
+        ? rightArrow.classList.add("hide-arrow")
+        : rightArrow.classList.remove("hide-arrow");
     },
     scrollLeft(event) {
       const container = event.target.parentNode;
@@ -158,7 +151,8 @@ export default {
   font-weight: bold;
   font-size: 65px;
   border-radius: 0 3px 3px 0;
-  transition-duration: 0.5s;
+  opacity: 1;
+  transition-duration: 3s;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -167,12 +161,14 @@ export default {
   font-size: 80px;
 }
 .prev {
-  display: none;
   left: 0;
 }
 .next {
   right: 0;
   border-radius: 3px 0 0 3px;
+}
+.hide-arrow {
+  opacity: 0;
 }
 @media only screen and (max-width: 750px) {
   .slideshow_arrow {
