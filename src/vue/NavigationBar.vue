@@ -32,12 +32,7 @@
           </ul>
         </div>
       </li>
-      <li
-        class="
-          navigation-bar_list_item navigation-bar_list-icons
-          images-margin-left
-        "
-      >
+      <li class="navigation-bar_list_item images-margin-left">
         <a class="navigation-bar_list_item_link" @click="openDropdown">
           <img
             class="navigation-bar_list_item_link_img"
@@ -61,33 +56,49 @@
           </form>
         </div>
       </li>
-      <li class="navigation-bar_list_item navigation-bar_list-icons">
+      <li
+        class="navigation-bar_list_item navigation-bar_list_item-notifications"
+      >
         <a class="navigation-bar_list_item_link" @click="openDropdown">
           <img
             class="navigation-bar_list_item_link_img"
             :src="getImgUrl(icons[1].link)"
             alt="notifications"
           />
+          <div class="icons_dropdown-content_notifications_length">
+            <span class="icons_dropdown-content_notifications_number">{{
+              notifications.length
+            }}</span>
+          </div>
         </a>
-        <div class="icons_dropdown-content">
+        <div
+          class="icons_dropdown-content icons_dropdown-content-notifications"
+        >
           <div class="icons_dropdown-content_notifications">
-            <div class="icons_dropdown-content_notifications_length">
-              <span class="icons_dropdown-content_notifications_number">{{
-                notifications.length
-              }}</span>
-            </div>
-            <a
+            <div
+              class="
+                icons_dropdown-content_notifications_notification-container
+              "
               v-for="notification in notifications"
               :key="notification.id + notification.text"
-              class="navigation-bar_list_item_notification"
-              href="./index.html"
             >
-              {{ notification.text }}
-            </a>
+              <a
+                class="navigation-bar_list_item_notification"
+                href="./index.html"
+              >
+                {{ notification.text }}
+              </a>
+              <div class="icons_dropdown-content_notifications_close-button">
+                <div
+                  class="icons_dropdown-content_notifications_cross"
+                  @click="deleteNotification"
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
       </li>
-      <li class="navigation-bar_list_item navigation-bar_list-icons">
+      <li class="navigation-bar_list_item">
         <a class="navigation-bar_list_item_link" @click="openDropdown">
           <img
             class="navigation-bar_list_item_link_img"
@@ -211,11 +222,27 @@ export default {
       return images("./" + pic);
     },
     openDropdown(event) {
-      const parent = event.target.parentNode.parentNode;
-      const dropdown = parent.childNodes[1];
-      dropdown.classList.contains("show-dropdown")
-        ? dropdown.classList.remove("show-dropdown")
-        : dropdown.classList.add("show-dropdown");
+      const parent = Array.from(event.target.parentNode.parentNode.childNodes);
+      const dropdown = parent.find((element) =>
+        element.classList.contains("icons_dropdown-content")
+      );
+      if (dropdown) {
+        dropdown.classList.contains("show-dropdown")
+          ? dropdown.classList.remove("show-dropdown")
+          : dropdown.classList.add("show-dropdown");
+      }
+    },
+    deleteNotification(event) {
+      const notificationText = event.target.parentNode.parentNode.textContent;
+      this.notifications = this.notifications.filter((notification) => {
+        return notification.text !== notificationText;
+      });
+      const dropdown = document.querySelector(
+        ".icons_dropdown-content-notifications"
+      );
+      this.notifications.length <= 0
+        ? dropdown.classList.add("hide-notifications")
+        : dropdown.classList.remove("hide-notifications");
     },
   },
 };
@@ -252,6 +279,7 @@ export default {
 }
 .navigation-bar_list_item_link {
   display: block;
+  position: relative;
   color: black;
   text-align: center;
   text-decoration: none;
@@ -309,20 +337,57 @@ export default {
   text-decoration: none;
 }
 .navigation-bar_list_item_notification:hover {
-  color: #1c55ff;
+  color: white;
 }
 .icons_dropdown-content_notifications_length {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  width: 18px;
+  height: 18px;
   margin-left: auto;
   border: 2px solid black;
   border-radius: 50%;
   background-color: #1c55ff;
+  font-size: 12px;
   color: white;
   text-align: center;
+  cursor: pointer;
+}
+.icons_dropdown-content_notifications_length:hover {
+  opacity: 0.7;
+}
+.icons_dropdown-content_notifications_notification-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+  margin: 5px;
+  background-color: rgba(28, 85, 255, 0.6);
+  border: 2px solid #1c55ff;
+  border-radius: 5px;
+}
+.icons_dropdown-content_notifications_notification-container:hover {
+  background-color: #1c55ff;
+}
+.icons_dropdown-content_notifications_close-button {
+  margin-left: auto;
+  cursor: pointer;
+}
+.icons_dropdown-content_notifications_close-button:hover {
+  opacity: 0.7;
+}
+.icons_dropdown-content_notifications_cross::before {
+  content: "x";
+  color: white;
+  font-weight: 300;
+  font-family: Arial, sans-serif;
+}
+.hide-notifications {
+  display: none;
 }
 .icons_dropdown-content_account {
   padding: 15px;
