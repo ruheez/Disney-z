@@ -114,6 +114,7 @@ export default {
 .movie-details_info {
   display: flex;
   flex-direction: column;
+  max-width: 700px;
   margin: 50px;
 }
 .movie-details_info_first-line {
