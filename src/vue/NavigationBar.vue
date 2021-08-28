@@ -141,7 +141,7 @@
                   icons_dropdown-content_account_li_link
                   navigation-bar_list_item_notification
                 "
-                href="./index.html"
+                :href="link.path"
                 >{{ link.text }}</a
               >
             </li>
@@ -227,19 +227,23 @@ export default {
       account: [
         {
           id: 1,
-          text: "Sign in",
+          text: "Sign up",
+          path: "./sign-up.html",
         },
         {
           id: 2,
           text: "Log in",
+          path: "./index.html",
         },
         {
           id: 3,
           text: "Account",
+          path: "./index.html",
         },
         {
           id: 4,
           text: "Customer Service",
+          path: "./index.html",
         },
       ],
     };
@@ -270,11 +274,12 @@ export default {
       const target = event.target.closest("div");
       const targetClasses = Array.from(target.classList).join("");
       if (
-        !targetClasses.includes("icons_dropdown-content") &&
-        !targetClasses.includes("navigation-bar_list_item_link")
+        targetClasses.includes("icons_dropdown-content") ||
+        targetClasses.includes("navigation-bar_list_item_link")
       ) {
-        this.closeDropdowns();
+        return;
       }
+      this.closeDropdowns();
     },
     closeDropdowns() {
       const dropdowns = document.querySelectorAll(".icons_dropdown-content");
@@ -404,7 +409,7 @@ export default {
   text-decoration: none;
 }
 .navigation-bar_list_item_notification:hover {
-  color: white;
+  text-decoration: underline;
 }
 .icons_dropdown-content_notifications_length {
   display: flex;
