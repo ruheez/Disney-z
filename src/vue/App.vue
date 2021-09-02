@@ -22,6 +22,7 @@ export default {
   },
   data() {
     return {
+      searchedWord: "",
       youtubeKey:
         "https://www.youtube.com/embed/9qH-mWfTMm0?controls=0&autoplay=1&cc_load_policy=1&rel=0",
     };

@@ -57,20 +57,23 @@
           />
         </div>
         <div class="icons_dropdown-content">
-          <form class="icons_dropdown-content_form" action="example.php">
+          <div class="icons_dropdown-content_form">
             <input
               class="navigation-bar_list_item_link_input"
               type="text"
               id="sdata"
               name="sdata"
-              placeholder="Titles, Actors, Genres..."
+              placeholder="Titles, Genres..."
+              v-model.trim="keyWord"
+              @keyup.enter="navigateFilteredMovies"
             />
             <input
               class="navigation-bar_list_item_link_submit"
               type="image"
               :src="getImgUrl(icons[3].link)"
+              @click="navigateFilteredMovies"
             />
-          </form>
+          </div>
         </div>
       </li>
       <li class="navigation-bar_list_item">
@@ -157,6 +160,7 @@ export default {
   name: "NavigationBar",
   data() {
     return {
+      keyWord: "",
       logo: {
         id: 1,
         text: "Logo",
@@ -302,6 +306,9 @@ export default {
         dropdown.classList.add("hide-notifications");
         notificationLength.classList.add("hide-notifications");
       }
+    },
+    navigateFilteredMovies() {
+      window.open("./index.html?key=" + encodeURI(this.keyWord));
     },
   },
 };
@@ -485,7 +492,7 @@ export default {
 .navigation-bar_list_item_more {
   font-weight: bold;
   color: black;
-  margin: 20px 0;
+  padding: 14px 0;
 }
 .navigation-bar_list_item_more_triangle {
   content: " ";

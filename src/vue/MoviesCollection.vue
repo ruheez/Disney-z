@@ -1,19 +1,22 @@
 <template>
   <div class="movies">
-    <div class="movies_list" v-for="sort in movies" :key="sort.id">
-      <h2 class="movies_list_title">{{ sort.name }}</h2>
-      <div class="movies_list_container" @scroll="handleArrows">
-        <movie
-          v-for="movie in sort.list"
-          :key="movie.id"
-          :img="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
-          :title="movie.title"
-          :overview="movie.overview"
-          :average="movie.vote_average"
-          @openMoviePage="navigateMovie(movie.id)"
-        />
-        <a class="slideshow_arrow prev hide-arrow" @click="scrollLeft">❮</a>
-        <a class="slideshow_arrow next" @click="scrollRight">❯</a>
+    <div class="movies_list" v-for="sort in filteredMovies" :key="sort.id">
+      <div v-if="sort.list.length > 0">
+        <h2 class="movies_list_title">{{ sort.name }}</h2>
+        <div class="movies_list_container" @scroll="handleArrows">
+          <movie
+            v-for="movie in sort.list"
+            :key="movie.id"
+            :img="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
+            :title="movie.title"
+            :overview="movie.overview"
+            :average="movie.vote_average"
+            :genre="movie.genre"
+            @openMoviePage="navigateMovie(movie.id, movie.genre)"
+          />
+          <a class="slideshow_arrow prev hide-arrow" @click="scrollLeft">❮</a>
+          <a class="slideshow_arrow next" @click="scrollRight">❯</a>
+        </div>
       </div>
     </div>
   </div>
@@ -30,30 +33,53 @@ export default {
   },
   data() {
     return {
-      movies: {
-        now_playing: {
+      movies: [
+        {
           id: 1,
           name: "Now Playing",
           list: [],
         },
-        popular: {
+        {
           id: 2,
           name: "Popular",
           list: [],
         },
-        top_rated: {
+        {
           id: 3,
           name: "Top Rated",
           list: [],
         },
-        upcoming: {
+        {
           id: 4,
           name: "Upcoming",
           list: [],
         },
-      },
-      images: [],
+      ],
+      genres: [],
     };
+  },
+  computed: {
+    filteredMovies() {
+      const keyWord = this.getFilteredMovies();
+      if (keyWord) {
+        const newMovieList = this.movies.map((sort) => {
+          return {
+            id: sort.id,
+            list: Array.from(sort.list).filter((movie) => {
+              if (movie.genre) {
+                return (
+                  movie.title.toLowerCase().includes(keyWord.toLowerCase()) ||
+                  movie.genre.toLowerCase().includes(keyWord.toLowerCase())
+                );
+              }
+            }),
+            name: sort.name,
+          };
+        });
+        return newMovieList;
+      }
+      return this.movies;
+    },
   },
   created() {
     this.getDataFromApi();
@@ -62,19 +88,39 @@ export default {
     async getDataFromApi() {
       const apiKey = "b9b95774804923e6978e27bc40df2c97";
       const movieLists = ["now_playing", "popular", "top_rated", "upcoming"];
-      movieLists.forEach(async (sort, index) => {
-        var url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${apiKey}&language=en-US`;
-        try {
+      const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
+      try {
+        movieLists.forEach(async (sort, index) => {
+          var url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${apiKey}&language=en-US`;
           const response = await fetch(url);
           var data = await response.json();
-          this.movies[sort].list = data.results;
-        } catch (error) {
-          console.log("Can't get data from API: " + error);
-        }
+          this.movies[index].list = data.results;
+        });
+        const genreResponse = await fetch(genreUrl);
+        var genreData = await genreResponse.json();
+        this.genres = genreData.genres;
+      } catch (error) {
+        console.log("Can't get data from API: " + error);
+      }
+      this.assignGenre();
+    },
+    assignGenre() {
+      this.movies.forEach((sort) => {
+        sort.list.forEach((movie) => {
+          const genreReference = this.genres.find((element) => {
+            return element.id === movie.genre_ids[0];
+          });
+          movie.genre = genreReference.name;
+        });
       });
     },
-    navigateMovie(id) {
-      window.open("./movie-page.html?movie=" + encodeURI(id));
+    getFilteredMovies() {
+      const urlParams = new URLSearchParams(window.location.search);
+      var keyWord = urlParams.get("key");
+      return keyWord;
+    },
+    navigateMovie(id, genre) {
+      window.open("./movie-page.html?movie=" + encodeURI(id + "," + genre));
     },
     handleArrows(event) {
       const container = event.target;

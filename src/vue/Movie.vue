@@ -11,12 +11,13 @@
         <div class="movie-inner_back_overview">
           <span class="movie-inner_back_definitions">Overview: </span>
           <span v-if="textIsShort()"> {{ overview }}</span>
-          <span v-else v-html="breakTextAt250Char()"></span>
+          <span v-else v-html="breakTextAt200Char()"></span>
         </div>
         <div>
           <span class="star"></span>&nbsp;
           <span class="movie-details_info_first-line_score">{{ average }}</span>
         </div>
+        <h4 class="movie-inner_back__genre">{{ genre }}</h4>
         <div class="movie-inner_back_play-icon">
           <img
             class="play-icon"
@@ -55,6 +56,10 @@ export default {
       type: Number,
       required: true,
     },
+    genre: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
     getImgUrl(pic) {
@@ -62,15 +67,15 @@ export default {
       return images("./" + pic);
     },
     textIsShort() {
-      if (this.$props.overview.length < 300) {
+      if (this.$props.overview.length < 200) {
         return true;
       }
       return false;
     },
-    breakTextAt250Char() {
+    breakTextAt200Char() {
       return (
-        this.$props.overview.substring(0, 250) +
-        '... <a class="read-more">read more</a>'
+        this.$props.overview.substring(0, 200) +
+        ' <a class="read-more">...read more</a>'
       );
     },
   },
@@ -129,9 +134,13 @@ export default {
 .read-more {
   color: #0071c2;
   text-decoration: underline;
+  white-space: nowrap;
 }
 .read-more:hover {
   opacity: 0.7;
+}
+.movie-inner_back__genre {
+  margin: 5px 0;
 }
 .movie-inner_back_play-icon {
   margin-left: auto;

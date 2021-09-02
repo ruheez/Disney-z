@@ -13,6 +13,7 @@
       </div>
       <div class="movie-details_info_details">
         <p class="movie-details_info_details_detail">{{ movie.overview }}</p>
+        <span class="movie-details_info_details_detail">{{ genre }}</span>
         <span class="movie-details_info_details_detail">{{ productions }}</span>
         <span class="movie-details_info_details_detail">{{ countries }}</span>
         <span class="movie-details_info_details_detail">{{ year }}</span>
@@ -42,6 +43,7 @@ export default {
   data() {
     return {
       movie: "",
+      genre: "",
       youtubeKey: "",
       playIcon: "play-icon.jpeg",
     };
@@ -49,8 +51,9 @@ export default {
   methods: {
     getMovie() {
       const urlParams = new URLSearchParams(window.location.search);
-      var movie = urlParams.get("movie");
-      return movie;
+      var movie = urlParams.get("movie").split(",");
+      this.genre = movie[1];
+      return movie[0];
     },
     async getDataFromApi() {
       const apiKey = "b9b95774804923e6978e27bc40df2c97";
