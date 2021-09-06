@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     getImgUrl(pic) {
-      var images = require.context("../images/", false, /\.png|jpeg$/);
+      var images = require.context("../../images/", false, /\.png|jpeg$/);
       return images("./" + pic);
     },
     textIsShort() {

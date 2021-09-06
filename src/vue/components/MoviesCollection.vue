@@ -3,7 +3,7 @@
     <div class="movies_list" v-for="sort in filteredMovies" :key="sort.id">
       <div v-if="sort.list.length > 0">
         <h2 class="movies_list_title">{{ sort.name }}</h2>
-        <div class="movies_list_container" @scroll="handleArrows">
+        <div class="movies_list_container" @scroll="handleScrollingArrows">
           <movie
             v-for="movie in sort.list"
             :key="movie.id"
@@ -62,7 +62,7 @@ export default {
     filteredMovies() {
       const keyWord = this.getFilteredMovies();
       if (keyWord) {
-        const newMovieList = this.movies.map((sort) => {
+        return this.movies.map((sort) => {
           return {
             id: sort.id,
             list: Array.from(sort.list).filter((movie) => {
@@ -76,7 +76,6 @@ export default {
             name: sort.name,
           };
         });
-        return newMovieList;
       }
       return this.movies;
     },
@@ -90,45 +89,46 @@ export default {
       const movieLists = ["now_playing", "popular", "top_rated", "upcoming"];
       const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
       try {
+        const genreResponse = await fetch(genreUrl);
+        var genreData = await genreResponse.json();
+        this.genres = genreData.genres;
         movieLists.forEach(async (sort, index) => {
           var url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${apiKey}&language=en-US`;
           const response = await fetch(url);
           var data = await response.json();
           this.movies[index].list = data.results;
+          this.assignGenreToMovies(index);
         });
-        const genreResponse = await fetch(genreUrl);
-        var genreData = await genreResponse.json();
-        this.genres = genreData.genres;
       } catch (error) {
         console.log("Can't get data from API: " + error);
       }
-      this.assignGenre();
     },
-    assignGenre() {
-      this.movies.forEach((sort) => {
-        sort.list.forEach((movie) => {
+    assignGenreToMovies(index) {
+      this.movies[index].list.forEach((movie) => {
           const genreReference = this.genres.find((element) => {
             return element.id === movie.genre_ids[0];
           });
           movie.genre = genreReference.name;
-        });
       });
     },
     getFilteredMovies() {
       const urlParams = new URLSearchParams(window.location.search);
       var keyWord = urlParams.get("key");
-      return keyWord;
+      if (keyWord) {
+        this.hideRightArrow();
+        return keyWord;
+      }
     },
     navigateMovie(id, genre) {
       window.open("./movie-page.html?movie=" + encodeURI(id + "," + genre));
     },
-    handleArrows(event) {
+    handleScrollingArrows(event) {
       const container = event.target;
-      const children = Array.from(container.children);
-      const leftArrow = children.find((element) => {
+      const containerChildren = Array.from(container.children);
+      const leftArrow = containerChildren.find((element) => {
         return element.className.includes("prev");
       });
-      const rightArrow = children.find((element) => {
+      const rightArrow = containerChildren.find((element) => {
         return element.className.includes("next");
       });
       this.hideLeftArrow(container, leftArrow);
@@ -140,9 +140,17 @@ export default {
         : leftArrow.classList.remove("hide-arrow");
     },
     hideRightArrow(container, rightArrow) {
-      container.scrollLeft === container.scrollWidth - container.offsetWidth
-        ? rightArrow.classList.add("hide-arrow")
-        : rightArrow.classList.remove("hide-arrow");
+      if (container) {
+        container.scrollLeft === container.scrollWidth - container.offsetWidth
+          ? rightArrow.classList.add("hide-arrow")
+          : rightArrow.classList.remove("hide-arrow");
+        return;
+      } else {
+        const rightArrows = document.querySelectorAll(".next");
+        rightArrows.forEach((arrow) => {
+          arrow.classList.add("hide-arrow");
+        });
+      }
     },
     scrollLeft(event) {
       const container = event.target.parentNode;

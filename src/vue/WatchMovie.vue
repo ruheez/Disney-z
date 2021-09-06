@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import Youtube from "./Youtube.vue";
+import Youtube from "./components/Youtube.vue";
 export default {
-  name: "App",
+  name: "WatchMovie",
   components: {
     Youtube,
   },

@@ -44,38 +44,7 @@
           </ul>
         </div>
       </li>
-      <li class="navigation-bar_list_item images-margin-left">
-        <div
-          class="navigation-bar_list_item_link"
-          @click="toggleDropdown"
-          tabindex="0"
-        >
-          <img
-            class="navigation-bar_list_item_link_img"
-            :src="getImgUrl(icons[0].link)"
-            alt="Magnifying glass"
-          />
-        </div>
-        <div class="icons_dropdown-content">
-          <div class="icons_dropdown-content_form">
-            <input
-              class="navigation-bar_list_item_link_input"
-              type="text"
-              id="sdata"
-              name="sdata"
-              placeholder="Titles, Genres..."
-              v-model.trim="keyWord"
-              @keyup.enter="navigateFilteredMovies"
-            />
-            <input
-              class="navigation-bar_list_item_link_submit"
-              type="image"
-              :src="getImgUrl(icons[3].link)"
-              @click="navigateFilteredMovies"
-            />
-          </div>
-        </div>
-      </li>
+      <search />
       <li class="navigation-bar_list_item">
         <div
           class="navigation-bar_list_item_link"
@@ -156,8 +125,12 @@
 </template>
 
 <script>
+import search from "./SearchComponent.vue";
 export default {
   name: "NavigationBar",
+  components: {
+    search,
+  },
   data() {
     return {
       keyWord: "",
@@ -257,7 +230,7 @@ export default {
   },
   methods: {
     getImgUrl(pic) {
-      var images = require.context("../images/", false, /\.png$/);
+      var images = require.context("../../images/", false, /\.png$/);
       return images("./" + pic);
     },
     toggleDropdown(event) {
@@ -306,9 +279,6 @@ export default {
         dropdown.classList.add("hide-notifications");
         notificationLength.classList.add("hide-notifications");
       }
-    },
-    navigateFilteredMovies() {
-      window.open("./index.html?key=" + encodeURI(this.keyWord));
     },
   },
 };
@@ -485,9 +455,6 @@ export default {
 }
 .navigation-bar_list_item_link_text {
   margin: 0 15px;
-}
-.images-margin-left {
-  margin-left: auto;
 }
 .navigation-bar_list_item_more {
   font-weight: bold;

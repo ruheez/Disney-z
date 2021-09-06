@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import Bar from "./NavigationBar.vue";
-import MovieDetails from "./MovieDetails.vue";
-import AppFooter from "./Footer.vue";
+import Bar from "./components/NavigationBar.vue";
+import MovieDetails from "./components/MovieDetails.vue";
+import AppFooter from "./components/Footer.vue";
 export default {
   name: "MoviePage",
   components: {

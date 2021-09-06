@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Process from "./signup/SignupProcess.vue";
-import AppFooter from "./Footer.vue";
+import Process from "./components/SignupProcess.vue";
+import AppFooter from "./components/Footer.vue";
 export default {
   name: "Signup",
   components: {

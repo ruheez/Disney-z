@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import Bar from "./NavigationBar.vue";
-import Movies from "./MoviesCollection.vue";
-import Youtube from "./Youtube.vue";
-import AppFooter from "./Footer.vue";
+import Bar from "./components/NavigationBar.vue";
+import Movies from "./components/MoviesCollection.vue";
+import Youtube from "./components/Youtube.vue";
+import AppFooter from "./components/Footer.vue";
 export default {
   name: "App",
   components: {
