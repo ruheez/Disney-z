@@ -77,8 +77,9 @@ export default {
   overflow: hidden;
 }
 .signup_background {
-  width: 100%;
-  min-height: 800px;
+  width: auto;
+  height: 1000px;
+  object-fit: fill;
   filter: brightness(0.3);
 }
 .signup_logo-container {
@@ -156,11 +157,6 @@ export default {
 @media only screen and (max-width: 750px) {
   .signup_text-container_form {
     flex-direction: column;
-  }
-  .signup_background {
-    height: 1000px;
-    width: auto;
-    object-fit: fill;
   }
 }
 </style>
