@@ -11,7 +11,14 @@
         <div class="movie-inner_back_overview">
           <span class="movie-inner_back_definitions">Overview: </span>
           <span v-if="textIsShort()"> {{ overview }}</span>
-          <span v-else v-html="breakTextAt200Char()"></span>
+          <span v-else
+            >{{ breakTextAt200Char()
+            }}<a
+              class="read-more"
+              @click="$emit('openMoviePage', { event: $event, id })"
+              >...read more</a
+            ></span
+          >
         </div>
         <div>
           <span class="star"></span>&nbsp;
@@ -73,10 +80,7 @@ export default {
       return false;
     },
     breakTextAt200Char() {
-      return (
-        this.$props.overview.substring(0, 200) +
-        ' <a class="read-more">...read more</a>'
-      );
+      return this.$props.overview.substring(0, 200);
     },
   },
 };

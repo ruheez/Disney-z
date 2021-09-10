@@ -105,17 +105,17 @@ export default {
     },
     assignGenreToMovies(index) {
       this.movies[index].list.forEach((movie) => {
-          const genreReference = this.genres.find((element) => {
-            return element.id === movie.genre_ids[0];
-          });
-          movie.genre = genreReference.name;
+        const genreReference = this.genres.find((element) => {
+          return element.id === movie.genre_ids[0];
+        });
+        movie.genre = genreReference.name;
       });
     },
     getFilteredMovies() {
       const urlParams = new URLSearchParams(window.location.search);
       var keyWord = urlParams.get("key");
       if (keyWord) {
-        this.hideRightArrow();
+        setTimeout(this.hideRightArrow, 1);
         return keyWord;
       }
     },

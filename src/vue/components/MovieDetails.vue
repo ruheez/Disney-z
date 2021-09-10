@@ -48,6 +48,9 @@ export default {
       playIcon: "play-icon.jpeg",
     };
   },
+  created() {
+    this.getDataFromApi();
+  },
   methods: {
     getMovie() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -98,9 +101,6 @@ export default {
       });
       return countries.join(" - ");
     },
-  },
-  created() {
-    this.getDataFromApi();
   },
 };
 </script>
