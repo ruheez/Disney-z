@@ -54,7 +54,7 @@ export default {
   methods: {
     getMovie() {
       const urlParams = new URLSearchParams(window.location.search);
-      var movie = urlParams.get("movie").split(",");
+      let movie = urlParams.get("movie").split(",");
       this.genre = movie[1];
       return movie[0];
     },
@@ -63,7 +63,7 @@ export default {
       const movie = `https://api.themoviedb.org/3/movie/${this.getMovie()}?api_key=${apiKey}&append_to_response=videos`;
       try {
         const response = await fetch(movie);
-        var data = await response.json();
+        let data = await response.json();
         this.youtubeKey = data.videos.results[0].key;
         this.movie = data;
       } catch (error) {
@@ -75,7 +75,7 @@ export default {
       return url;
     },
     getImgUrl(pic) {
-      var images = require.context("../../images/", false, /\.png|jpeg$/);
+      const images = require.context("../../images/", false, /\.png|jpeg$/);
       return images("./" + pic);
     },
     playMovie(id) {

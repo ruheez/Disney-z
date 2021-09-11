@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     getImgUrl(pic) {
-      var images = require.context("../images/", false, /\.png$/);
+      const images = require.context("../images/", false, /\.png$/);
       return images("./" + pic);
     },
     addHtmlLangandDir() {
@@ -55,7 +55,7 @@ export default {
       clearTimeout(id);
       const arrow = document.querySelector(".back-to-details");
       arrow.classList.add("show-arrow");
-      var id = setTimeout(this.hideArrow, 3000);
+      let id = setTimeout(this.hideArrow, 3000);
     },
     hideArrow() {
       const arrow = document.querySelector(".back-to-details");
@@ -63,7 +63,7 @@ export default {
     },
     backToMovieDetails() {
       const urlParams = new URLSearchParams(window.location.search);
-      var movie = urlParams.get("movie");
+      let movie = urlParams.get("movie");
       window.open("./movie-page.html?movie=" + encodeURI(movie));
     },
   },

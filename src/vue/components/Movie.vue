@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     getImgUrl(pic) {
-      var images = require.context("../../images/", false, /\.png|jpeg$/);
+      const images = require.context("../../images/", false, /\.png|jpeg$/);
       return images("./" + pic);
     },
     textIsShort() {
@@ -91,8 +91,6 @@ export default {
   display: flex;
   flex-direction: row;
   background-color: transparent;
-  width: fit-content;
-  height: 300px;
   margin: 10px 10px 10px 0;
   perspective: 1000px;
   cursor: pointer;
@@ -100,7 +98,7 @@ export default {
 .movie-inner {
   position: relative;
   width: 250px;
-  height: 300px;
+  height: 375px;
   text-align: left;
   transition: transform 0.6s;
   transform-style: preserve-3d;
@@ -121,13 +119,15 @@ export default {
   width: 100%;
   height: 100%;
   padding: 5px;
+  border: 1px solid white;
   background-color: #141414;
   color: white;
   transform: rotateY(180deg);
 }
 .movie-inner_movie_img {
-  width: 250px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .movie-inner_back_overview {
   padding: 5px 0;

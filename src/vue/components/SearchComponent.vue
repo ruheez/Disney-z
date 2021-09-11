@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     getImgUrl(pic) {
-      var images = require.context("../../images/", false, /\.png$/);
+      const images = require.context("../../images/", false, /\.png$/);
       return images("./" + pic);
     },
     toggleDropdown(event) {

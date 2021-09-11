@@ -90,12 +90,12 @@ export default {
       const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
       try {
         const genreResponse = await fetch(genreUrl);
-        var genreData = await genreResponse.json();
+        let genreData = await genreResponse.json();
         this.genres = genreData.genres;
         movieLists.forEach(async (sort, index) => {
-          var url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${apiKey}&language=en-US`;
+          let url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${apiKey}&language=en-US`;
           const response = await fetch(url);
-          var data = await response.json();
+          let data = await response.json();
           this.movies[index].list = data.results;
           this.assignGenreToMovies(index);
         });
@@ -113,7 +113,7 @@ export default {
     },
     getFilteredMovies() {
       const urlParams = new URLSearchParams(window.location.search);
-      var keyWord = urlParams.get("key");
+      let keyWord = urlParams.get("key");
       if (keyWord) {
         setTimeout(this.hideRightArrow, 1);
         return keyWord;
@@ -196,7 +196,7 @@ export default {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 250px;
+  top: Calc(50% + 51.43px);
   width: 50px;
   height: 75px;
   padding: 16px;
