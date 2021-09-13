@@ -33,6 +33,7 @@ export default {
   },
   data() {
     return {
+      apiKey: "b9b95774804923e6978e27bc40df2c97",
       movies: [
         {
           id: 1,
@@ -81,19 +82,57 @@ export default {
     },
   },
   created() {
-    this.getDataFromApi();
+    this.fetchGenre();
+    this.fetchMovies();
+    // this.xtmlHttpRequestGenre();
+    // this.xtmlHttpRequestMovies();
   },
   methods: {
-    async getDataFromApi() {
-      const apiKey = "b9b95774804923e6978e27bc40df2c97";
+    xtmlHttpRequestGenre() {
+      const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${this.apiKey}&language=en-US`;
+      let self = this;
+      let xhttp = new XMLHttpRequest();
+      xhttp.open("GET", genreUrl, true);
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const data = JSON.parse(xhttp.response);
+          const target_copy = Object.assign({}, data);
+          self.genres = target_copy.genres;
+        }
+      };
+      xhttp.send(null);
+    },
+    xtmlHttpRequestMovies() {
       const movieLists = ["now_playing", "popular", "top_rated", "upcoming"];
-      const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`;
+      movieLists.forEach(async (sort, index) => {
+        let xhttp = new XMLHttpRequest();
+        let self = this;
+        let url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${this.apiKey}&language=en-US`;
+        xhttp.open("GET", url, true);
+        xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            self.movies[index].list = JSON.parse(xhttp.response).results;
+            self.assignGenreToMovies(index);
+          }
+        };
+        xhttp.send(null);
+      });
+    },
+    async fetchGenre() {
       try {
+        const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${this.apiKey}&language=en-US`;
         const genreResponse = await fetch(genreUrl);
         let genreData = await genreResponse.json();
         this.genres = genreData.genres;
+      } catch (error) {
+        console.log("Can't get data from API: " + error);
+      }
+    },
+    async fetchMovies() {
+      const movieLists = ["now_playing", "popular", "top_rated", "upcoming"];
+      try {
         movieLists.forEach(async (sort, index) => {
-          let url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${apiKey}&language=en-US`;
+          let url = `https://api.themoviedb.org/3/movie/${sort}?api_key=${this.apiKey}&language=en-US`;
           const response = await fetch(url);
           let data = await response.json();
           this.movies[index].list = data.results;
