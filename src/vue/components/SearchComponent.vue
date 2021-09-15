@@ -19,14 +19,14 @@
           id="sdata"
           name="sdata"
           placeholder="Titles, Genres..."
-          v-model.trim="keyWord"
-          @keyup.enter="navigateFilteredMovies"
+          v-model.trim="$keyWord"
+          @keyup="updateKeyWord"
         />
         <input
           class="navigation-bar_list_item_link_submit"
           type="image"
           :src="getImgUrl(boxMagnifying.link)"
-          @click="navigateFilteredMovies"
+          @click="updateKeyWord"
         />
       </div>
     </div>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 export default {
   name: "SearchComponent",
   data() {
@@ -48,7 +49,13 @@ export default {
         text: "White magnifying glass",
         link: "white-magnifying.png",
       },
-      keyWord: "",
+    };
+  },
+  setup() {
+    const store = useStore();
+
+    return {
+      store,
     };
   },
   methods: {
@@ -67,8 +74,8 @@ export default {
         openDropdowns.classList.remove("show-dropdown");
       }
     },
-    navigateFilteredMovies() {
-      window.open("./index.html?key=" + encodeURI(this.keyWord));
+    updateKeyWord(event) {
+      this.$store.state.keyWord = event.srcElement.value;
     },
   },
 };

@@ -25,6 +25,7 @@
 <script>
 import Movie from "./Movie.vue";
 import "regenerator-runtime/runtime";
+import { useStore } from "vuex";
 
 export default {
   name: "Movies",
@@ -59,9 +60,16 @@ export default {
       genres: [],
     };
   },
+  setup() {
+    const store = useStore();
+
+    return {
+      store,
+    };
+  },
   computed: {
     filteredMovies() {
-      const keyWord = this.getFilteredMovies();
+      const keyWord = this.$store.state.keyWord;
       if (keyWord) {
         return this.movies.map((sort) => {
           return {
@@ -149,14 +157,6 @@ export default {
         });
         movie.genre = genreReference.name;
       });
-    },
-    getFilteredMovies() {
-      const urlParams = new URLSearchParams(window.location.search);
-      let keyWord = urlParams.get("key");
-      if (keyWord) {
-        setTimeout(this.hideRightArrow, 1);
-        return keyWord;
-      }
     },
     navigateMovie(id, genre) {
       window.open("./movie-page.html?movie=" + encodeURI(id + "," + genre));
