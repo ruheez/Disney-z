@@ -1,7 +1,7 @@
 <template>
   <div class="movies">
     <div class="movies_list" v-for="sort in filteredMovies" :key="sort.id">
-      <div v-if="sort.list.length > 0">
+      <div v-if="sort.list.length">
         <h2 class="movies_list_title">{{ sort.name }}</h2>
         <div class="movies_list_container" @scroll="handleScrollingArrows">
           <movie
@@ -18,6 +18,9 @@
           <a class="slideshow_arrow next" @click="scrollRight">❯</a>
         </div>
       </div>
+    </div>
+    <div class="no-results-container" v-if="noResultsFound">
+      <span class="no-results">No results found...</span>
     </div>
   </div>
 </template>
@@ -88,12 +91,20 @@ export default {
       }
       return this.movies;
     },
+    noResultsFound() {
+      return Array.from(this.filteredMovies).every((sort) => {
+        return sort.list.length === 0;
+      });
+    },
   },
   created() {
     this.fetchGenre();
     this.fetchMovies();
     // this.xtmlHttpRequestGenre();
     // this.xtmlHttpRequestMovies();
+  },
+  updated() {
+    this.sizeIsScrollable();
   },
   methods: {
     xtmlHttpRequestGenre() {
@@ -163,33 +174,30 @@ export default {
     },
     handleScrollingArrows(event) {
       const container = event.target;
-      const containerChildren = Array.from(container.children);
-      const leftArrow = containerChildren.find((element) => {
+      this.hideLeftArrow(container);
+      this.hideRightArrow(container);
+    },
+    sizeIsScrollable() {
+      const sorts = document.querySelectorAll(".movies_list_container");
+      sorts.forEach((sort) => {
+        this.hideRightArrow(sort);
+      });
+    },
+    hideLeftArrow(container) {
+      const leftArrow = Array.from(container.children).find((element) => {
         return element.className.includes("prev");
       });
-      const rightArrow = containerChildren.find((element) => {
-        return element.className.includes("next");
-      });
-      this.hideLeftArrow(container, leftArrow);
-      this.hideRightArrow(container, rightArrow);
-    },
-    hideLeftArrow(container, leftArrow) {
       container.scrollLeft === 0
         ? leftArrow.classList.add("hide-arrow")
         : leftArrow.classList.remove("hide-arrow");
     },
-    hideRightArrow(container, rightArrow) {
-      if (container) {
-        container.scrollLeft === container.scrollWidth - container.offsetWidth
-          ? rightArrow.classList.add("hide-arrow")
-          : rightArrow.classList.remove("hide-arrow");
-        return;
-      } else {
-        const rightArrows = document.querySelectorAll(".next");
-        rightArrows.forEach((arrow) => {
-          arrow.classList.add("hide-arrow");
-        });
-      }
+    hideRightArrow(container) {
+      const rightArrow = Array.from(container.children).find((element) => {
+        return element.className.includes("next");
+      });
+      container.scrollLeft === container.scrollWidth - container.offsetWidth
+        ? rightArrow.classList.add("hide-arrow")
+        : rightArrow.classList.remove("hide-arrow");
     },
     scrollLeft(event) {
       const container = event.target.parentNode;
@@ -219,6 +227,7 @@ export default {
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
+  overflow-y: hidden;
   scroll-behavior: smooth;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -262,6 +271,15 @@ export default {
 }
 .hide-arrow {
   opacity: 0;
+}
+.no-results-container {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+}
+.no-results {
+  font-size: 26px;
+  color: white;
 }
 @media only screen and (max-width: 750px) {
   .slideshow_arrow {

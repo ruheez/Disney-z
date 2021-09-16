@@ -16,11 +16,8 @@
         <input
           class="navigation-bar_list_item_link_input"
           type="text"
-          id="sdata"
-          name="sdata"
           placeholder="Titles, Genres..."
-          v-model.trim="store.state.keyWord"
-          @keyup="
+          @input="
             debounce(() => {
               store.state.keyWord = $event.srcElement.value;
             })
@@ -49,11 +46,11 @@ export default {
 
     function createDebounce() {
       let timeout = null;
-      return function (fnc, delayMs) {
+      return function (fnc) {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
           fnc();
-        }, delayMs || 500);
+        }, 500);
       };
     }
 
@@ -85,5 +82,8 @@ export default {
 <style>
 .images-margin-left {
   margin-left: auto;
+}
+input.navigation-bar_list_item_link_input:focus {
+  outline-width: 0;
 }
 </style>
