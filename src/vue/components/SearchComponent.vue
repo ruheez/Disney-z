@@ -19,14 +19,12 @@
           id="sdata"
           name="sdata"
           placeholder="Titles, Genres..."
-          v-model.trim="$keyWord"
-          @keyup="updateKeyWord"
-        />
-        <input
-          class="navigation-bar_list_item_link_submit"
-          type="image"
-          :src="getImgUrl(boxMagnifying.link)"
-          @click="updateKeyWord"
+          v-model.trim="store.state.keyWord"
+          @keyup="
+            debounce(() => {
+              store.state.keyWord = $event.srcElement.value;
+            })
+          "
         />
       </div>
     </div>
@@ -44,18 +42,24 @@ export default {
         text: "Magnifying glass",
         link: "magnifying.png",
       },
-      boxMagnifying: {
-        id: 2,
-        text: "White magnifying glass",
-        link: "white-magnifying.png",
-      },
     };
   },
   setup() {
     const store = useStore();
 
+    function createDebounce() {
+      let timeout = null;
+      return function (fnc, delayMs) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          fnc();
+        }, delayMs || 500);
+      };
+    }
+
     return {
       store,
+      debounce: createDebounce(),
     };
   },
   methods: {
@@ -73,9 +77,6 @@ export default {
       if (openDropdowns) {
         openDropdowns.classList.remove("show-dropdown");
       }
-    },
-    updateKeyWord(event) {
-      this.$store.state.keyWord = event.srcElement.value;
     },
   },
 };
