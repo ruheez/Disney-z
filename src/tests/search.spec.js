@@ -1,16 +1,13 @@
-import { mount } from "@vue/test-utils";
-import "regenerator-runtime/runtime";
+import { mount } from '@vue/test-utils'
 import Component from "../vue/components/SearchComponent.vue";
 
-test("Trigger search", async () => {
+test('displays message', () => {
   const wrapper = mount(Component, {
-    propsData: {
-      id: 1,
-      value: '5',
-      topic: 'Reviews',
-      itemsWithFilter: 5
+    props: {
+      msg: 'Hello world'
     }
-  });
-  await wrapper.find(".filters_filter_topic_checkbox").trigger("click");
-  expect(wrapper.emitted()).toHaveProperty("updateShownItemsAndFilters");
-});
+  })
+
+  // Assert the rendered text of the component
+  expect(wrapper.text()).toContain('Hello world')
+})
